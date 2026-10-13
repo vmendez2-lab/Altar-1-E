@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arma el altar de Renato Iturriaga</title>
+<style>
+:root{
+  --bg:#FFF3DC; --card:#FFFFFF; --ink:#2B1A10; --muted:#6B5646; --accent:#6A1B9A; --orange:#E65100;
+  --good:#1B7F4B; --goodbg:#DDF3E6; --bad:#B3261E; --badbg:#FBE3E1; --line:#E8C9A0; --slot:#F6E2BC;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1E0F2E; --card:#2D1745; --ink:#FFF3DC; --muted:#CDB8E0; --accent:#F9B8FF; --orange:#FFA94D;
+    --good:#7EE2A8; --goodbg:#183B2A; --bad:#FF9C94; --badbg:#4A1E22; --line:#5A3A7A; --slot:#3A2058;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1E0F2E; --card:#2D1745; --ink:#FFF3DC; --muted:#CDB8E0; --accent:#F9B8FF; --orange:#FFA94D;
+  --good:#7EE2A8; --goodbg:#183B2A; --bad:#FF9C94; --badbg:#4A1E22; --line:#5A3A7A; --slot:#3A2058;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+main{max-width:640px;margin:0 auto;padding:16px 14px 28px}
+.banner{text-align:center;font-size:26px;letter-spacing:4px;overflow:hidden;white-space:nowrap}
+h1{font-family:Georgia,"Times New Roman",serif;color:var(--accent);text-align:center;margin:6px 0 2px;font-size:28px}
+.sub{text-align:center;color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.altar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center}
+.slot{background:var(--slot);border:2px dashed var(--line);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:30px;opacity:.55;transition:transform .3s,opacity .3s}
+.slot.on{opacity:1;border-style:solid;border-color:var(--orange);transform:scale(1.08)}
+.prog{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}
+.bar{height:8px;background:var(--slot);border-radius:99px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;width:0;background:var(--orange);transition:width .3s}
+h2{font-size:19px;margin:0 0 12px;font-family:Georgia,serif}
+.opts{display:grid;gap:10px}
+button{font:inherit;color:var(--ink);cursor:pointer}
+.opt{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;font-size:16px;min-height:48px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.good{background:var(--goodbg);border-color:var(--good)}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.fb{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:15px;display:none}
+.fb.show{display:block}.fb.good{background:var(--goodbg)}.fb.bad{background:var(--badbg)}
+.go{margin-top:12px;width:100%;background:var(--accent);color:var(--bg);border:0;border-radius:12px;padding:13px;font-weight:700;font-size:16px;min-height:48px}
+:root:not([data-theme="dark"]) .go{color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .go{color:#1E0F2E}}
+.big{font-size:44px;text-align:center;margin:0}
+.res{text-align:center}
+.res p{margin:6px 0}
+ul.facts{text-align:left;padding-left:20px;margin:10px 0}
+.hide{display:none}
+</style>
+</head>
+<body>
+<main>
+  <div class="banner" aria-hidden="true">🎊🎊🎊🎊🎊🎊🎊🎊</div>
+  <h1>Arma el altar</h1>
+  <p class="sub">Responde sobre el Dr. Renato Iturriaga de la Fuente y gana ofrendas</p>
+
+  <div class="card"><div class="altar" id="altar" aria-label="Ofrendas ganadas"></div></div>
+
+  <div class="card" id="quiz">
+    <div class="prog"><span id="num"></span><span id="score"></span></div>
+    <div class="bar"><i id="bar"></i></div>
+    <h2 id="q"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb" role="status" aria-live="polite"></div>
+    <button class="go hide" id="next"></button>
+  </div>
+
+  <div class="card res hide" id="end">
+    <p class="big" id="emoji"></p>
+    <h2 id="endTitle"></h2>
+    <p id="endMsg"></p>
+    <ul class="facts">
+      <li>Fue director del Centro de Cálculo Electrónico de la UNAM (1967–1970).</li>
+      <li>Trabajó desde joven con la IBM 650, la primera computadora de la UNAM.</li>
+      <li>Hizo su doctorado en Computación en Carnegie Mellon.</li>
+      <li>Su centro dio origen al IIMAS, instituto de investigación en computación.</li>
+    </ul>
+    <button class="go" id="again">Jugar otra vez</button>
+  </div>
+</main>
+
+<script>
+var OFR = ["🌼","🕯️","🍞","💀","🎊"];
+var NAMES = ["cempasúchil","vela","pan de muerto","calavera","papel picado"];
+var Q = [
+ {q:"¿Con qué computadora tuvo su primer contacto, a los 17 años?", o:["IBM 650","Burroughs B5500","Bendix G-15","Olivetti"], a:0, t:"La IBM 650 llegó a la UNAM en 1958 y él ayudaba al Dr. Arcadio Poveda a usarla."},
+ {q:"¿Qué centro de la UNAM dirigió desde 1967?", o:["Centro de Cálculo Electrónico","Instituto de Física","Facultad de Ingeniería","Dirección de Cómputo Académico"], a:0, t:"Era el Centro de Cálculo Electrónico, antecedente del IIMAS."},
+ {q:"¿En qué universidad hizo su doctorado en Computación?", o:["Harvard","Carnegie Mellon","Stanford","UCLA"], a:1, t:"Estudió en Carnegie Mellon, con Alan Perlis como asesor."},
+ {q:"¿Qué computadora se compró para modernizar el centro en su gestión?", o:["IBM 650","Apple II","Burroughs B5500","Cray-1"], a:2, t:"Con la Burroughs B5500 el centro se modernizó y empezó a trabajar con teleproceso."},
+ {q:"¿En qué año el centro se convirtió en el CIMASS, un centro de investigación?", o:["1958","1970","1985","2000"], a:1, t:"En 1970 nació el CIMASS, que después daría lugar al IIMAS (1976)."}
+];
+var i=0, pts=0, locked=false;
+var $=function(id){return document.getElementById(id)};
+
+function drawAltar(){
+  var h="";
+  for(var k=0;k<OFR.length;k++){
+    h+='<div class="slot'+(k<pts?' on':'')+'" title="'+NAMES[k]+'">'+(k<pts?OFR[k]:'?')+'</div>';
+  }
+  $("altar").innerHTML=h;
+}
+function show(){
+  locked=false;
+  var c=Q[i];
+  $("num").textContent="Pregunta "+(i+1)+" de "+Q.length;
+  $("score").textContent="Ofrendas: "+pts;
+  $("bar").style.width=(i/Q.length*100)+"%";
+  $("q").textContent=c.q;
+  var h="";
+  for(var k=0;k<c.o.length;k++){h+='<button class="opt" data-k="'+k+'">'+c.o[k]+'</button>';}
+  $("opts").innerHTML=h;
+  $("fb").className="fb";
+  $("next").classList.add("hide");
+  var b=document.querySelectorAll(".opt");
+  for(var j=0;j<b.length;j++){b[j].addEventListener("click",pick);}
+}
+function pick(e){
+  if(locked)return; locked=true;
+  var k=+e.currentTarget.getAttribute("data-k"), c=Q[i], ok=(k===c.a);
+  var b=document.querySelectorAll(".opt");
+  for(var j=0;j<b.length;j++){b[j].disabled=true;}
+  b[c.a].classList.add("good");
+  if(!ok){e.currentTarget.classList.add("bad");}
+  var fb=$("fb");
+  if(ok){pts++;fb.textContent="¡Correcto! Ganaste: "+OFR[pts-1]+" "+NAMES[pts-1]+". "+c.t;}
+  else{fb.textContent="Casi. "+c.t;}
+  fb.className="fb show "+(ok?"good":"bad");
+  $("score").textContent="Ofrendas: "+pts;
+  drawAltar();
+  $("next").textContent=(i===Q.length-1)?"Ver resultado":"Siguiente";
+  $("next").classList.remove("hide");
+}
+function finish(){
+  $("quiz").classList.add("hide");
+  $("end").classList.remove("hide");
+  $("bar").style.width="100%";
+  var full=(pts===Q.length);
+  $("emoji").textContent=full?"🏆":(pts>=3?"🌼":"💀");
+  $("endTitle").textContent=full?"¡Altar completo!":"Obtuviste "+pts+" de "+Q.length+" ofrendas";
+  $("endMsg").textContent=full?"Conoces muy bien al Dr. Iturriaga. Ya puedes presentar tu altar.":"Repasa los datos y vuelve a intentarlo para completar el altar.";
+}
+$("next").addEventListener("click",function(){
+  i++; if(i>=Q.length){finish();}else{show();}
+});
+$("again").addEventListener("click",function(){
+  i=0;pts=0;$("end").classList.add("hide");$("quiz").classList.remove("hide");drawAltar();show();
+});
+drawAltar();show();
+</script>
+</body>
+</html>
